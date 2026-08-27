@@ -1,0 +1,17 @@
+packages:
+  - "."
+
+catalog:
+  motion: "^13.1.0"
+
+onlyBuiltDependencies:
+  - esbuild
+  - lightningcss
+
+allowBuilds:
+  esbuild: true
+  lightningcss: true
+
+minimumReleaseAgeExclude:
+  - "@tanstack/react-router@1.170.31"
+  - "@tanstack/start-plugin-core@1.171.38"
