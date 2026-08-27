@@ -142,7 +142,8 @@ function ProjectParentMeta({ project }: { project: Project }) {
 
 function ProjectUrlBar({ project }: { project: Project }) {
 	const isLive = project.online && hasPublicUrl(project);
-	const protocolClass = isLive ? "text-emerald-300" : "text-zinc-400";
+	const mutedClass = "text-background/50 dark:text-foreground/50";
+	const protocolClass = isLive ? "text-emerald-300" : mutedClass;
 	const className = cn(
 		"col-start-1 row-start-1 flex items-center gap-1.5 bg-foreground pr-1.5 pl-[calc(6px+0.375rem)] font-mono text-xs text-background no-underline dark:bg-background dark:text-foreground",
 		"max-md:col-start-2 max-md:pl-1.5",
@@ -156,7 +157,7 @@ function ProjectUrlBar({ project }: { project: Project }) {
 					<span className="max-md:hidden">https</span>
 					{"://"}
 				</span>
-				<span className={cn(!hasPublicUrl(project) && "text-zinc-400")}>
+				<span className={cn(!hasPublicUrl(project) && mutedClass)}>
 					{projectUrlLabel(project)}
 				</span>
 			</span>
