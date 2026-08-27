@@ -19,11 +19,13 @@ import {
 	REEL_SCROLL_MIN_WIDTH,
 	useProjectCycle,
 } from "#/hooks/use-project-cycle.ts";
-
-const slideTransition = {
-	duration: 0.55,
-	ease: [0.22, 1, 0.36, 1] as const,
-};
+import {
+	horizontalSlideVariants,
+	slideTransition,
+	swipeDirection,
+	swipeDragConstraints,
+	swipeDragElastic,
+} from "#/lib/swipe.ts";
 
 const verticalSlideVariants = {
 	enter: (dir: 1 | -1) => ({
@@ -37,21 +39,6 @@ const verticalSlideVariants = {
 	exit: (dir: 1 | -1) => ({
 		x: 0,
 		y: dir > 0 ? "-100dvh" : "100dvh",
-	}),
-};
-
-const horizontalSlideVariants = {
-	enter: (dir: 1 | -1) => ({
-		x: dir > 0 ? "100vw" : "-100vw",
-		y: 0,
-	}),
-	center: {
-		x: 0,
-		y: 0,
-	},
-	exit: (dir: 1 | -1) => ({
-		x: dir > 0 ? "-100vw" : "100vw",
-		y: 0,
 	}),
 };
 
@@ -103,6 +90,7 @@ export const Route = createFileRoute("/")({
 function HomePage() {
 	const reduceMotion = useReducedMotion();
 	const reelReady = useRef(false);
+	const cardRef = useRef<HTMLDivElement>(null);
 	const navigate = Route.useNavigate();
 	const { project } = Route.useLoaderData();
 	const index = getProjectIndex(project.slug);
@@ -126,6 +114,8 @@ function HomePage() {
 		},
 	});
 
+	const canDragReel = !isDesktopReel && !reduceMotion;
+
 	useEffect(() => {
 		reelReady.current = true;
 	}, []);
@@ -133,7 +123,7 @@ function HomePage() {
 	return (
 		<>
 			<StageMain>
-				<div className="stage-frame">
+				<div ref={cardRef} className="stage-frame">
 					<AnimatePresence initial={false} custom={direction}>
 						<motion.div
 							key={project.slug}
@@ -147,13 +137,37 @@ function HomePage() {
 							}
 							transition={reduceMotion ? { duration: 0 } : slideTransition}
 						>
-							<ProjectCard project={project} />
+							<motion.div
+								className="project-slide-drag"
+								drag={canDragReel ? "x" : false}
+								dragConstraints={swipeDragConstraints}
+								dragElastic={swipeDragElastic}
+								dragMomentum={false}
+								onDragEnd={(_event, info) => {
+									if (!canDragReel) {
+										return;
+									}
+
+									const dir = swipeDirection(info.offset.x, info.velocity.x);
+
+									if (dir === 1) {
+										next();
+										return;
+									}
+
+									if (dir === -1) {
+										prev();
+									}
+								}}
+							>
+								<ProjectCard project={project} />
+							</motion.div>
 						</motion.div>
 					</AnimatePresence>
 				</div>
 			</StageMain>
 
-			<ProjectReelCues onPrev={prev} onNext={next} />
+			<ProjectReelCues cardRef={cardRef} onPrev={prev} onNext={next} />
 
 			<ProjectScrubber
 				projects={projects}

@@ -1,12 +1,15 @@
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-import { type Ref, useRef, useState } from "react";
+import { type Ref, type RefObject, useEffect, useRef, useState } from "react";
 
+import { reelCueOpacity } from "#/lib/reel-cues.ts";
 import { cn } from "#/lib/utils.ts";
 
 export function ProjectReelCues({
+	cardRef,
 	onPrev,
 	onNext,
 }: {
+	cardRef?: RefObject<HTMLElement | null>;
 	onPrev: () => void;
 	onNext: () => void;
 }) {
@@ -15,31 +18,54 @@ export function ProjectReelCues({
 	const downRef = useRef<HTMLButtonElement>(null);
 	const [pointer, setPointer] = useState<{ x: number; y: number }>();
 
+	useEffect(() => {
+		function onMove(event: MouseEvent) {
+			setPointer({ x: event.clientX, y: event.clientY });
+		}
+
+		function onLeave() {
+			setPointer(undefined);
+		}
+
+		window.addEventListener("mousemove", onMove);
+		document.documentElement.addEventListener("mouseleave", onLeave);
+
+		return () => {
+			window.removeEventListener("mousemove", onMove);
+			document.documentElement.removeEventListener("mouseleave", onLeave);
+		};
+	}, []);
+
 	const fadeRange =
 		(navRef.current?.getBoundingClientRect().height ?? 0) * 0.55;
+	const card = cardRef?.current?.getBoundingClientRect();
 
 	return (
 		<nav
 			ref={navRef}
 			aria-label="Project reel"
 			className="stage-reel-cues no-print max-lg:hidden"
-			onMouseLeave={() => {
-				setPointer(undefined);
-			}}
-			onMouseMove={(event) => {
-				setPointer({ x: event.clientX, y: event.clientY });
-			}}
 		>
 			<CueButton
 				ref={upRef}
 				direction="up"
-				opacity={cueOpacity(pointer, upRef.current, fadeRange)}
+				opacity={reelCueOpacity(
+					pointer,
+					upRef.current?.getBoundingClientRect(),
+					fadeRange,
+					card,
+				)}
 				onClick={onPrev}
 			/>
 			<CueButton
 				ref={downRef}
 				direction="down"
-				opacity={cueOpacity(pointer, downRef.current, fadeRange)}
+				opacity={reelCueOpacity(
+					pointer,
+					downRef.current?.getBoundingClientRect(),
+					fadeRange,
+					card,
+				)}
 				onClick={onNext}
 			/>
 		</nav>
@@ -78,31 +104,4 @@ function CueButton({
 			<Icon className="size-24 drop-shadow-[0_4px_18px_rgb(0_0_0_/_0.45)]" />
 		</button>
 	);
-}
-
-function cueOpacity(
-	pointer: { x: number; y: number } | undefined,
-	button: HTMLElement | null,
-	range: number,
-) {
-	if (!pointer || !button || range <= 0) {
-		return 0;
-	}
-
-	const rect = button.getBoundingClientRect();
-	const dx = Math.max(rect.left - pointer.x, 0, pointer.x - rect.right);
-	const dy = Math.max(rect.top - pointer.y, 0, pointer.y - rect.bottom);
-	const distance = Math.hypot(dx, dy);
-
-	if (distance === 0) {
-		return 1;
-	}
-
-	if (distance >= range) {
-		return 0;
-	}
-
-	const t = 1 - distance / range;
-
-	return t * t;
 }

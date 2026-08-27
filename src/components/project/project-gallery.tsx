@@ -6,7 +6,8 @@ import {
 	PlayIcon,
 	XIcon,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Button } from "#/components/ui/button.tsx";
 import {
@@ -21,12 +22,31 @@ import {
 	type Project,
 	type ProjectMedia,
 } from "#/data/projects.ts";
+import {
+	horizontalSlideVariants,
+	slideTransition,
+	swipeDirection,
+	swipeDragConstraints,
+	swipeDragElastic,
+} from "#/lib/swipe.ts";
 import { cn } from "#/lib/utils.ts";
 
 export function ProjectGallery({ project }: { project: Project }) {
+	const reduceMotion = useReducedMotion();
 	const [activeIndex, setActiveIndex] = useState<number>();
+	const [direction, setDirection] = useState<1 | -1>(1);
 	const gallery = getProjectGallery(project);
 	const active = activeIndex === undefined ? undefined : gallery[activeIndex];
+	const canDragImage =
+		!reduceMotion && gallery.length > 1 && active?.kind === "image";
+
+	const step = useCallback(
+		(delta: 1 | -1) => {
+			setDirection(delta);
+			setActiveIndex((index) => stepIndex(index, gallery.length, delta));
+		},
+		[gallery.length],
+	);
 
 	useEffect(() => {
 		if (activeIndex === undefined) {
@@ -36,12 +56,12 @@ export function ProjectGallery({ project }: { project: Project }) {
 		function onKeyDown(event: KeyboardEvent) {
 			if (event.key === "ArrowLeft") {
 				event.preventDefault();
-				setActiveIndex((index) => stepIndex(index, gallery.length, -1));
+				step(-1);
 			}
 
 			if (event.key === "ArrowRight") {
 				event.preventDefault();
-				setActiveIndex((index) => stepIndex(index, gallery.length, 1));
+				step(1);
 			}
 		}
 
@@ -50,7 +70,7 @@ export function ProjectGallery({ project }: { project: Project }) {
 		return () => {
 			window.removeEventListener("keydown", onKeyDown);
 		};
-	}, [activeIndex, gallery.length]);
+	}, [activeIndex, step]);
 
 	if (gallery.length === 0) {
 		return null;
@@ -110,7 +130,7 @@ export function ProjectGallery({ project }: { project: Project }) {
 					</DialogTitle>
 					<DialogDescription className="sr-only">
 						{gallery.length > 1
-							? "Use the arrow keys or buttons to move through the images and videos."
+							? "Swipe, use the arrow keys, or use the buttons to move through the images and videos."
 							: active?.alt}
 					</DialogDescription>
 
@@ -133,7 +153,7 @@ export function ProjectGallery({ project }: { project: Project }) {
 						</DialogClose>
 					</div>
 
-					<div className="relative flex min-h-0 flex-1 items-center justify-center px-4 pb-6 sm:px-16">
+					<div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden px-4 pb-6 sm:px-16">
 						{gallery.length > 1 ? (
 							<Button
 								type="button"
@@ -141,9 +161,7 @@ export function ProjectGallery({ project }: { project: Project }) {
 								size="icon-lg"
 								className="absolute left-2 z-10 rounded-full text-white hover:bg-white/10 hover:text-white sm:left-4"
 								onClick={() => {
-									setActiveIndex((index) =>
-										stepIndex(index, gallery.length, -1),
-									);
+									step(-1);
 								}}
 							>
 								<ChevronLeftIcon />
@@ -151,7 +169,49 @@ export function ProjectGallery({ project }: { project: Project }) {
 							</Button>
 						) : null}
 
-						{active ? <LightboxMedia media={active} /> : null}
+						<AnimatePresence initial={false} custom={direction}>
+							{active ? (
+								<motion.div
+									key={active.id}
+									className="absolute inset-0 flex items-center justify-center"
+									custom={direction}
+									initial={reduceMotion ? false : "enter"}
+									animate="center"
+									exit="exit"
+									variants={horizontalSlideVariants}
+									transition={reduceMotion ? { duration: 0 } : slideTransition}
+								>
+									<motion.div
+										className={cn(
+											"flex h-full w-full items-center justify-center",
+											canDragImage && "touch-pan-x",
+										)}
+										drag={canDragImage ? "x" : false}
+										dragConstraints={swipeDragConstraints}
+										dragElastic={swipeDragElastic}
+										dragMomentum={false}
+										onDragEnd={(_event, info) => {
+											if (!canDragImage) {
+												return;
+											}
+
+											const dir = swipeDirection(
+												info.offset.x,
+												info.velocity.x,
+											);
+
+											if (dir === undefined) {
+												return;
+											}
+
+											step(dir);
+										}}
+									>
+										<LightboxMedia media={active} />
+									</motion.div>
+								</motion.div>
+							) : null}
+						</AnimatePresence>
 
 						{gallery.length > 1 ? (
 							<Button
@@ -160,9 +220,7 @@ export function ProjectGallery({ project }: { project: Project }) {
 								size="icon-lg"
 								className="absolute right-2 z-10 rounded-full text-white hover:bg-white/10 hover:text-white sm:right-4"
 								onClick={() => {
-									setActiveIndex((index) =>
-										stepIndex(index, gallery.length, 1),
-									);
+									step(1);
 								}}
 							>
 								<ChevronRightIcon />
@@ -210,7 +268,6 @@ function LightboxMedia({ media }: { media: ProjectMedia }) {
 		return (
 			// biome-ignore lint/a11y/useMediaCaption: project videos are silent UI captures
 			<video
-				key={media.id}
 				src={media.src}
 				poster={media.poster}
 				controls
@@ -223,9 +280,9 @@ function LightboxMedia({ media }: { media: ProjectMedia }) {
 
 	return (
 		<img
-			key={media.id}
 			src={media.src}
 			alt={media.alt}
+			draggable={false}
 			className="max-h-full max-w-full object-contain"
 		/>
 	);
