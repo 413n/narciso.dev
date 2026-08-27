@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "better-writing": {
+      "source": "jakubkrehel/skills",
+      "sourceType": "github",
+      "skillPath": "skills/better-writing/SKILL.md",
+      "computedHash": "1946c18db173c7bab9a78206e5bc9f48b6beb630a2fcb0dde82ad1328a5f4d17"
+    }
+  }
+}
