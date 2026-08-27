@@ -74,6 +74,7 @@ export const projects = [
 		kind: "product",
 		parentSlug: "n6-studio",
 		languages: ["TypeScript", "React", "Convex"],
+		logo: "/images/projects/notes/logo.svg",
 		colors: {
 			primary: "#0b1220",
 			secondary: "#c4b5fd",
@@ -127,6 +128,7 @@ export const projects = [
 		kind: "product",
 		parentSlug: "epicparty",
 		languages: ["TypeScript", "React", "Convex"],
+		logo: "/images/projects/epicparty-pro/logo.svg",
 		colors: {
 			primary: "#0040ff",
 			secondary: "#7dd3fc",
@@ -153,6 +155,7 @@ export const projects = [
 		kind: "product",
 		parentSlug: "epicparty",
 		languages: ["TypeScript", "React", "Convex"],
+		logo: "/images/projects/epicparty-tools/logo.svg",
 		colors: {
 			primary: "#7600ff",
 			secondary: "#e879f9",
@@ -178,6 +181,7 @@ export const projects = [
 		category: "Wedding",
 		kind: "product",
 		languages: ["TypeScript", "React", "Next.js"],
+		logo: "/images/projects/gs-wedding/logo.png",
 		colors: {
 			primary: "#948b5c",
 			secondary: "#80744e",
@@ -203,6 +207,7 @@ export const projects = [
 		category: "Gaming",
 		kind: "product",
 		languages: ["TypeScript", "React", "Next.js"],
+		logo: "/images/projects/fanta-irwin/logo.png",
 		colors: {
 			primary: "#14b8a6",
 			secondary: "#d946ef",
@@ -228,6 +233,7 @@ export const projects = [
 		category: "Artist",
 		kind: "product",
 		languages: ["HTML", "CSS", "React"],
+		logo: "/images/projects/cyrus-yung/logo.svg",
 		colors: {
 			primary: "#2f5bff",
 			secondary: "#7b2cff",

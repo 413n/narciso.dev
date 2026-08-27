@@ -49,7 +49,7 @@ export function ProjectCard({ project }: { project: Project }) {
 					"max-md:col-start-2 max-md:row-start-2 max-md:flex max-md:flex-col max-md:gap-6 max-md:px-4 max-md:pt-4",
 				)}
 			>
-				<div className="col-start-1 row-start-2 flex items-end px-8 max-md:px-0">
+				<div className="col-start-1 row-start-2 flex items-end px-8 pb-2 max-md:px-0">
 					{project.logo ? (
 						<ProjectLogo
 							src={project.logo}
@@ -60,9 +60,9 @@ export function ProjectCard({ project }: { project: Project }) {
 					) : null}
 				</div>
 
-				<div className="col-start-1 row-start-3 flex min-w-0 flex-col gap-3 self-start px-8 pt-6 max-md:px-0 max-md:pt-0">
+				<div className="col-start-1 row-start-3 flex min-w-0 flex-col gap-3 self-start px-8 pt-3 max-md:px-0 max-md:pt-0">
 					<h2
-						className="vt-project-title w-fit font-display text-3xl font-bold leading-tight tracking-tight text-pretty md:text-4xl lg:text-5xl"
+						className="vt-project-title w-fit font-display text-3xl font-bold line-clamp-2 leading-tight tracking-tight text-pretty md:text-4xl lg:text-5xl"
 						style={projectViewTransitionStyle("title", project.slug)}
 					>
 						{project.name}

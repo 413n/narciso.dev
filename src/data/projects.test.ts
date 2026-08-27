@@ -46,6 +46,24 @@ describe("projects", () => {
 				.map((project) => project.slug),
 		).toEqual(["n6-studio", "notes", "epicparty"]);
 	});
+
+	test("uses a product logo when the original project has one", () => {
+		expect(
+			Object.fromEntries(
+				projects.map((project) => [project.slug, project.logo]),
+			),
+		).toEqual({
+			"n6-studio": "/images/projects/n6-studio/logo.svg",
+			notes: "/images/projects/notes/logo.svg",
+			epicparty: "/images/projects/epicparty/logo.svg",
+			"epicparty-pro": "/images/projects/epicparty-pro/logo.svg",
+			"epicparty-tools": "/images/projects/epicparty-tools/logo.svg",
+			"gs-wedding": "/images/projects/gs-wedding/logo.png",
+			"fanta-irwin": "/images/projects/fanta-irwin/logo.png",
+			"cyrus-yung": "/images/projects/cyrus-yung/logo.svg",
+			descrudes: undefined,
+		});
+	});
 });
 
 describe("getHighlightedProjects", () => {
