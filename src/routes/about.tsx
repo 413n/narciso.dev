@@ -22,16 +22,14 @@ function AboutPage() {
 		<StageMain>
 			<article className="flex h-full min-h-0 flex-col gap-8 overflow-auto rounded-lg bg-card p-5 text-card-foreground shadow-[0_7px_14px_rgb(50_50_93_/_0.1),0_3px_6px_rgb(0_0_0_/_0.07)] sm:p-8">
 				<div className="flex flex-col gap-6">
-					<p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+					<p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
 						About me
 					</p>
-					<p className="max-w-3xl text-2xl leading-snug sm:text-3xl">
-						{person.about}
-					</p>
+					<p className="text-2xl leading-snug sm:text-3xl">{person.about}</p>
 				</div>
 
-				<section className="flex max-w-md flex-col gap-3">
-					<p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+				<section className="flex flex-col gap-3">
+					<p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
 						Skills
 					</p>
 					<SkillsList />

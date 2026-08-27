@@ -58,7 +58,7 @@ export function ProjectGallery({ project }: { project: Project }) {
 
 	return (
 		<section className="flex flex-col gap-3">
-			<h2 className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+			<h2 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
 				Gallery
 			</h2>
 			<ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">

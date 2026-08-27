@@ -8,7 +8,7 @@ export function NotFoundPage() {
 	return (
 		<StageMain>
 			<div className="flex h-full min-h-0 flex-col justify-center gap-4 rounded-lg bg-card p-8 text-card-foreground">
-				<p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+				<p className="text-lg font-semibold uppercase tracking-[0.22em] text-muted-foreground">
 					404
 				</p>
 				<h1 className="font-display text-4xl font-bold">
@@ -16,7 +16,7 @@ export function NotFoundPage() {
 				</h1>
 				<p className="max-w-md text-muted-foreground">
 					The project or path you asked for does not exist. Head back to the
-					projects, or read the CV.
+					homepage.
 				</p>
 				<div className="flex flex-wrap gap-2">
 					<Button asChild className="rounded-full">
@@ -25,12 +25,7 @@ export function NotFoundPage() {
 							search={{ project: defaultProjectSlug }}
 							viewTransition
 						>
-							View projects
-						</Link>
-					</Button>
-					<Button asChild variant="outline" className="rounded-full">
-						<Link to="/cv" viewTransition>
-							Read CV
+							Go home
 						</Link>
 					</Button>
 				</div>

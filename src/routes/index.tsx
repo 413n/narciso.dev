@@ -1,5 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef } from "react";
 
 import { ProjectCard } from "#/components/home/project-card.tsx";
 import { ProjectReelCues } from "#/components/home/project-reel-cues.tsx";
@@ -13,22 +14,44 @@ import {
 	resolveProjectSlug,
 } from "#/data/projects.ts";
 import { person } from "#/data/site.ts";
-import { useProjectCycle } from "#/hooks/use-project-cycle.ts";
+import { useMinWidth } from "#/hooks/use-min-width.ts";
+import {
+	REEL_SCROLL_MIN_WIDTH,
+	useProjectCycle,
+} from "#/hooks/use-project-cycle.ts";
 
 const slideTransition = {
 	duration: 0.55,
 	ease: [0.22, 1, 0.36, 1] as const,
 };
 
-const slideVariants = {
+const verticalSlideVariants = {
 	enter: (dir: 1 | -1) => ({
+		x: 0,
 		y: dir > 0 ? "100dvh" : "-100dvh",
 	}),
 	center: {
+		x: 0,
 		y: 0,
 	},
 	exit: (dir: 1 | -1) => ({
+		x: 0,
 		y: dir > 0 ? "-100dvh" : "100dvh",
+	}),
+};
+
+const horizontalSlideVariants = {
+	enter: (dir: 1 | -1) => ({
+		x: dir > 0 ? "100vw" : "-100vw",
+		y: 0,
+	}),
+	center: {
+		x: 0,
+		y: 0,
+	},
+	exit: (dir: 1 | -1) => ({
+		x: dir > 0 ? "-100vw" : "100vw",
+		y: 0,
 	}),
 };
 
@@ -79,9 +102,11 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
 	const reduceMotion = useReducedMotion();
+	const reelReady = useRef(false);
 	const navigate = Route.useNavigate();
 	const { project } = Route.useLoaderData();
 	const index = getProjectIndex(project.slug);
+	const isDesktopReel = useMinWidth(REEL_SCROLL_MIN_WIDTH);
 	const { direction, next, prev, goTo } = useProjectCycle({
 		length: projects.length,
 		index,
@@ -101,6 +126,10 @@ function HomePage() {
 		},
 	});
 
+	useEffect(() => {
+		reelReady.current = true;
+	}, []);
+
 	return (
 		<>
 			<StageMain>
@@ -110,10 +139,12 @@ function HomePage() {
 							key={project.slug}
 							className="project-slide"
 							custom={direction}
-							initial={reduceMotion ? false : "enter"}
+							initial={reduceMotion || !reelReady.current ? false : "enter"}
 							animate="center"
 							exit="exit"
-							variants={slideVariants}
+							variants={
+								isDesktopReel ? verticalSlideVariants : horizontalSlideVariants
+							}
 							transition={reduceMotion ? { duration: 0 } : slideTransition}
 						>
 							<ProjectCard project={project} />
@@ -128,6 +159,8 @@ function HomePage() {
 				projects={projects}
 				activeIndex={index}
 				onSelect={goTo}
+				onPrev={prev}
+				onNext={next}
 			/>
 		</>
 	);

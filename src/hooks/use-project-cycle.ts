@@ -1,8 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { useMinWidth } from "#/hooks/use-min-width.ts";
+
 const CYCLE_LOCK_MS = 580;
 const WHEEL_THRESHOLD = 72;
 const SWIPE_THRESHOLD = 48;
+export const REEL_SCROLL_MIN_WIDTH = 768;
+
+export function canCaptureReelScroll(width: number) {
+	return width >= REEL_SCROLL_MIN_WIDTH;
+}
 
 export function useProjectCycle({
 	length,
@@ -20,6 +27,8 @@ export function useProjectCycle({
 	const onChangeRef = useRef(onChange);
 	const wheelDelta = useRef(0);
 	const touchStartY = useRef<number | undefined>(undefined);
+
+	const captureScroll = useMinWidth(REEL_SCROLL_MIN_WIDTH);
 
 	indexRef.current = index;
 	onChangeRef.current = onChange;
@@ -72,6 +81,10 @@ export function useProjectCycle({
 	);
 
 	useEffect(() => {
+		if (!captureScroll) {
+			return;
+		}
+
 		const onKeyDown = (event: KeyboardEvent) => {
 			if (event.key === "ArrowDown" || event.key === "PageDown") {
 				event.preventDefault();
@@ -135,7 +148,7 @@ export function useProjectCycle({
 			window.removeEventListener("touchend", onTouchEnd);
 			window.clearTimeout(timer.current);
 		};
-	}, [go]);
+	}, [captureScroll, go]);
 
 	return {
 		direction,

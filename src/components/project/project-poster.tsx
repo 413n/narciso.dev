@@ -1,5 +1,6 @@
 import { getFeaturedMedia, type Project } from "#/data/projects.ts";
 import { cn } from "#/lib/utils.ts";
+import { projectViewTransitionStyle } from "#/lib/view-transition.ts";
 
 export function ProjectPoster({
 	project,
@@ -13,10 +14,10 @@ export function ProjectPoster({
 	return (
 		<div
 			className={cn(
-				"project-poster relative h-full min-h-0 overflow-hidden",
+				"project-poster vt-project-poster relative h-full min-h-0 overflow-hidden",
 				className,
 			)}
-			style={{ viewTransitionName: `project-poster-${project.slug}` }}
+			style={projectViewTransitionStyle("poster", project.slug)}
 		>
 			{featured?.kind === "image" ? (
 				<img
@@ -51,7 +52,7 @@ export function ProjectPoster({
 					<div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgb(255_255_255_/_0.28),transparent_42%)]" />
 					<span
 						aria-hidden
-						className="pointer-events-none absolute -right-3 -bottom-8 font-display text-[min(58cqh,9rem)] leading-none font-extrabold text-white/20 select-none"
+						className="pointer-events-none absolute -right-3 -bottom-8 font-display text-9xl leading-none font-extrabold text-white/20 select-none"
 					>
 						{project.name[0]}
 					</span>

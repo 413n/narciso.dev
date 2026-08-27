@@ -1,5 +1,7 @@
 import { createRouter as createTanStackRouter } from "@tanstack/react-router";
 
+import { viewTransitionTypes } from "#/lib/view-transition.ts";
+
 import { routeTree } from "./routeTree.gen";
 
 export function getRouter() {
@@ -8,7 +10,9 @@ export function getRouter() {
 		scrollRestoration: true,
 		defaultPreload: "intent",
 		defaultPreloadStaleTime: 0,
-		defaultViewTransition: true,
+		defaultViewTransition: {
+			types: viewTransitionTypes,
+		},
 	});
 
 	return router;
