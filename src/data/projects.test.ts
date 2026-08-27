@@ -3,6 +3,7 @@ import { describe, expect, test } from "vitest";
 import {
 	defaultProject,
 	defaultProjectSlug,
+	formatParentAttribution,
 	getChildProjects,
 	getHighlightedProjects,
 	getParentProject,
@@ -61,7 +62,7 @@ describe("projects", () => {
 			"gs-wedding": "/images/projects/gs-wedding/logo.png",
 			"fanta-irwin": "/images/projects/fanta-irwin/logo.png",
 			"cyrus-yung": "/images/projects/cyrus-yung/logo.svg",
-			descrudes: undefined,
+			descrudes: "/images/projects/descrudes/logo.svg",
 		});
 	});
 });
@@ -101,5 +102,17 @@ describe("project family", () => {
 
 		expect(fantaIrwin && getParentProject(fantaIrwin)).toBeUndefined();
 		expect(getChildProjects("gs-wedding")).toEqual([]);
+	});
+
+	test("names studio children as projects and product children as products", () => {
+		const studio = getProjectBySlug("n6-studio");
+		const epicparty = getProjectBySlug("epicparty");
+
+		expect(studio && formatParentAttribution(studio)).toBe(
+			"Project of N6 Studio",
+		);
+		expect(epicparty && formatParentAttribution(epicparty)).toBe(
+			"Product of EpicParty",
+		);
 	});
 });

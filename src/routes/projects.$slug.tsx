@@ -8,6 +8,7 @@ import { ProjectPoster } from "#/components/project/project-poster.tsx";
 import { Badge } from "#/components/ui/badge.tsx";
 import { Button } from "#/components/ui/button.tsx";
 import {
+	formatParentAttribution,
 	getChildProjects,
 	getParentProject,
 	getProjectBySlug,
@@ -100,7 +101,7 @@ function ProjectDetailPage() {
 									viewTransition={projectViewTransition}
 									className="w-fit text-sm text-muted-foreground no-underline hover:text-foreground"
 								>
-									Part of {parent.name}
+									{formatParentAttribution(parent)}
 								</Link>
 							) : null}
 						</div>

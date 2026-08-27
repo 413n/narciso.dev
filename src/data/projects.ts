@@ -12,7 +12,7 @@ export type ProjectYear = {
 	end?: number | "Present";
 };
 
-export type ProjectKind = "brand" | "product";
+export type ProjectKind = "studio" | "product";
 
 export type Project = {
 	slug: string;
@@ -45,7 +45,7 @@ export const projects = [
 		href: "https://n6.studio",
 		year: { start: 2026, end: "Present" },
 		category: "Studio",
-		kind: "brand",
+		kind: "studio",
 		languages: ["TypeScript", "React", "TanStack"],
 		logo: "/images/projects/n6-studio/logo.svg",
 		colors: {
@@ -53,15 +53,15 @@ export const projects = [
 			secondary: "#94a3b8",
 		},
 		online: true,
-		lede: "A studio brand for games, extensions, and tools — small products shipped under one mark.",
+		lede: "A studio brand for games, extensions, and tools. Small products share one public site.",
 		story: [
-			"N6 Studio is the umbrella, not the product. It needed a public surface that could hold a Chrome extension, a capture app, and whatever comes next without pretending they are the same thing.",
-			"I built the studio site in TanStack Start: brand kit, listings, and Polar checkout for paid extensions. Black, quiet, and fast — a place to land, not a manifesto.",
+			"N6 Studio is the brand behind several small products, not a product itself. The site had to list a Chrome extension, a capture app, and future work without treating them as one thing.",
+			"I built the studio site in TanStack Start: a brand kit, product listings, and Polar checkout for paid extensions. The site is dark, quiet, and fast.",
 		],
 		highlights: [
-			"Shaped a brand surface for a family of small products",
+			"Designed a public brand site for a family of small products",
 			"Built the studio site in TanStack Start with Polar checkout",
-			"Gave extensions and experiments a single place to land",
+			"Listed extensions and experiments on one public site",
 		],
 	},
 	{
@@ -80,13 +80,13 @@ export const projects = [
 			secondary: "#c4b5fd",
 		},
 		online: true,
-		lede: "An open-source capture app for thoughts, todos, reminders, and bookmarks — send once, find it later.",
+		lede: "An open-source app for thoughts, todos, reminders, and bookmarks. Capture once and find it later.",
 		story: [
-			"Notes had to get out of the way. Jot a thought, paste a URL, pick a time, attach a photo — then send once. Everything lands in an inbox and stays in sync for when you actually need it.",
-			"I built it on TanStack Start with a Convex backend and Better Auth. Anonymous sessions work immediately; Google is there when you want it. The product is the capture, not the account wall.",
+			"Notes is built for capture. Jot a thought, paste a URL, set a reminder, or attach a photo. Everything lands in one inbox and stays in sync.",
+			"I built it on TanStack Start with a Convex backend and Better Auth. Anonymous sessions work immediately; Google sign-in is there when you want it.",
 		],
 		highlights: [
-			"Designed a capture-first inbox that stays out of the way",
+			"Designed a capture-first inbox",
 			"Built the app on TanStack Start with a Convex backend",
 			"Shipped anonymous sessions so the first note does not wait on a signup",
 		],
@@ -107,15 +107,15 @@ export const projects = [
 		},
 		online: true,
 		highlighted: true,
-		lede: "A social gaming platform built for short sessions, loud rooms, and a reason to come back tonight.",
+		lede: "A pocket game platform for connecting and playing with friends, anywhere and anytime.",
 		story: [
-			"EpicParty had to feel like a night out, not an admin dashboard. Lobbies, matches, and profiles needed to be instant on a phone and still hold up on a TV across the room.",
-			"I designed the interface around pace: clear turns, readable scores, and a visual language that stays playful without getting in the way of the game. The same brand now also covers Pro and Tools — organizer ops and event coordination that sit next to the game without stealing its name.",
+			"EpicParty grew out of Fanta Irwin, a betting game made for a graduation night. The product had to travel: friends connecting and playing whenever they want.",
+			"I designed the interface around pace: clear turns, readable scores, and a look that stays playful without covering the game. The same brand now covers Pro and Tools: larger Party events, and a toolkit for organizing a Party.",
 		],
 		highlights: [
-			"Designed the product surface for live, social play",
+			"Designed a pocket platform for playing with friends anywhere",
 			"Built the web client around fast sessions and readable match state",
-			"Shaped a visual system that can survive new game modes without a redesign",
+			"Designed a visual system that can support new game modes without a redesign",
 		],
 	},
 	{
@@ -134,15 +134,15 @@ export const projects = [
 			secondary: "#7dd3fc",
 		},
 		online: false,
-		lede: "Party operations for organizers, and a guest-facing Party app that keeps the roster, teams, and access links in one place.",
+		lede: "A Party for larger events that need organization. RSVP, teams and solo play, and a media drive for guest photos and videos.",
 		story: [
-			"A hosted Party is not a match lobby. Organizers needed roster, access, and team language that could survive a live night — and guests needed a web app that did not look like an admin tool.",
-			"I designed Pro around that split: a dashboard for the people running the Party, and a guest surface for the people in it. Access links, teams, and identity stay Party-scoped so ops can evolve without rewriting the consumer game.",
+			"Pro is for bigger events that need organization. One Party holds invitations, games, and guest media in a single place. Games can run with teams or with individual players.",
+			"I designed Pro around that split: a dashboard for the people running the Party, and a guest app for the people in it. Organizers handle RSVP. Guests can play and upload photos and videos to a shared media drive.",
 		],
 		highlights: [
-			"Designed organizer and guest surfaces around a single Party",
-			"Built roster, team, and access-link flows that survive a live night",
-			"Split ops from the consumer game so each product can move on its own",
+			"Designed organizer and guest apps around a single Party",
+			"Built RSVP, team, and individual-player flows for larger events",
+			"Added a guest media drive for photos and videos",
 		],
 	},
 	{
@@ -161,15 +161,15 @@ export const projects = [
 			secondary: "#e879f9",
 		},
 		online: false,
-		lede: "Focused utilities for coordinating event work — availability, timeslots, and a booking flow that does not need a meeting.",
+		lede: "A toolkit for organizing a Party, plus simple Party games such as Secret Santa.",
 		story: [
-			"Tools is for the coordination around a Party, not the Party itself. Organizers share an Availability; guests pick timeslots. Booking claims a slot. Poll mode finds the overlap without locking anyone in.",
-			"I kept the product small on purpose. One job, readable on a phone, and a visual language that can sit next to EpicParty without copying the game.",
+			"Tools is a toolkit for organizing a Party. It also hosts simple Party games, starting with Secret Santa for the winter season, with room for more later.",
+			"I kept the product small. It stays readable on a phone and can sit next to EpicParty without copying the consumer game.",
 		],
 		highlights: [
-			"Designed availability as a shared, guest-friendly surface",
-			"Implemented booking and poll modes without collapsing them into one metaphor",
-			"Kept the product a tool, not a second platform",
+			"Designed a toolkit for organizing a Party",
+			"Shipped Secret Santa as a seasonal Party game",
+			"Left room for more Party games without growing the product",
 		],
 	},
 	{
@@ -187,15 +187,15 @@ export const projects = [
 			secondary: "#80744e",
 		},
 		online: false,
-		lede: "An invitation, RSVP, and wedding-day challenge site for G & S — private links, not a public landing page.",
+		lede: "A private invitation, RSVP, and wedding-day challenge site for G & S. Guests open their own link.",
 		story: [
-			"The site had to feel like an invitation: names, date, church, dinner — then a calm path to yes or no. Guests never hit a homepage. They opened their own link.",
-			"On the day, teams ran challenges with QR check-in and a live ranking. I built it in Next.js with tRPC and Drizzle: RSVP, gifts, and a one-night game that still had to work when the room was loud.",
+			"The site had to feel like an invitation: names, date, church, and dinner, then a calm path to yes or no. Guests never landed on a public homepage. Each person opened a private link.",
+			"On the day, teams ran challenges with QR check-in and a live ranking. I built it in Next.js with tRPC and Drizzle: RSVP, gifts, and a one-night game that had to work on phones in a crowded room.",
 		],
 		highlights: [
-			"Designed a private RSVP flow that felt like an invitation, not a form",
+			"Designed a private RSVP flow that felt like an invitation",
 			"Built wedding-day challenges with team ranking and QR check-in",
-			"Shipped a stack that could survive a single day without a rehearsal",
+			"Shipped a stack that had to work the first time, on the day",
 		],
 	},
 	{
@@ -213,15 +213,15 @@ export const projects = [
 			secondary: "#d946ef",
 		},
 		online: false,
-		lede: "A party betting night in the Italian fanta tradition — how well do you actually know Irwin?",
+		lede: "A betting game made for Irwin's graduation. Guests bet on what would happen that evening.",
 		story: [
-			"Fanta Irwin was a one-night game among friends. Everyone started with a stack of glauchi, bet on events before the party, and watched the ranking move as the night happened.",
-			"I built it in Next.js with PlanetScale: login, bets, admin, and a live board. The tone had to feel like a game among friends, not a casino — loud type, ridiculous events, and a scoreboard that could sit on a phone in a dark room.",
+			"Fanta Irwin was made for Irwin's graduation party. Guests could bet on what would happen that evening, in the Italian fanta tradition. Everyone started with glauchi, the in-game currency, and watched the ranking update as the night went on. That night is what later became the idea for EpicParty.",
+			"I built it in Next.js with PlanetScale: login, bets, admin, and a live board. The look had to feel like a game among friends: large type, silly events, and a scoreboard that stays readable on a phone in a dark room.",
 		],
 		highlights: [
-			"Designed a live ranking around a single party night",
+			"Designed a live ranking for a graduation night",
 			"Built betting, admin, and profile flows in Next.js",
-			"Tuned the tone to feel like a game among friends, not a casino",
+			"Inspired the idea for EpicParty",
 		],
 	},
 	{
@@ -239,14 +239,14 @@ export const projects = [
 			secondary: "#7b2cff",
 		},
 		online: false,
-		lede: "A loud, identity-first presence for a rapper — music, visuals, and a single place to land.",
+		lede: "A public site for a rapper: music, visuals, and links in one place.",
 		story: [
-			"Artist sites die when they feel like a Linktree with extra steps. This one had to carry a voice: dark, electric, and fast on a phone in a club queue.",
-			"I built it in React as a tight one-pager that could grow — releases, press, and a visual language that could survive a new mixtape without a redesign.",
+			"A list of links is not enough for an artist site. This one had to carry a voice: dark, electric, and fast on a phone.",
+			"I built it in React as a short one-pager that could grow: releases, press, and a visual system that could support a new mixtape without a redesign.",
 		],
 		highlights: [
-			"Shaped a visual system around the artist identity",
-			"Implemented a React front-end tuned for mobile",
+			"Designed a visual system around the artist identity",
+			"Built a React front-end tuned for mobile",
 			"Structured content so new releases could ship without a rebuild",
 		],
 	},
@@ -259,15 +259,16 @@ export const projects = [
 		category: "Fashion",
 		kind: "product",
 		languages: ["HTML", "CSS", "JS", "Laravel"],
+		logo: "/images/projects/descrudes/logo.svg",
 		colors: {
 			primary: "#e23d2a",
 			secondary: "#f08a24",
 		},
 		online: false,
-		lede: "An editorial storefront for an Italian clothing label — collections first, checkout second.",
+		lede: "An editorial storefront for an Italian clothing label, built around collections.",
 		story: [
 			"Descrudes needed a site that felt like a lookbook, not a generic catalogue. I built the full stack in Laravel: collection pages, product stories, and a calm path from browsing to purchase.",
-			"The work sat between fashion direction and engineering. Photography had to stay huge, type had to stay sharp, and the CMS had to be usable on a Sunday night before a drop.",
+			"The work sat between fashion direction and engineering. Photography had to stay large, type had to stay sharp, and the CMS had to be usable right before a drop.",
 		],
 		highlights: [
 			"Designed and shipped the public site end-to-end",
@@ -340,6 +341,14 @@ export function getParentProject(project: Project) {
 	}
 
 	return getProjectBySlug(project.parentSlug);
+}
+
+export function formatParentAttribution(parent: Project) {
+	if (parent.kind === "studio") {
+		return `Project of ${parent.name}`;
+	}
+
+	return `Product of ${parent.name}`;
 }
 
 export function getChildProjects(slug: string) {

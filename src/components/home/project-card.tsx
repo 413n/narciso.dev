@@ -5,6 +5,7 @@ import type { CSSProperties } from "react";
 import { ProjectLogo } from "#/components/project/project-logo.tsx";
 import { ProjectPoster } from "#/components/project/project-poster.tsx";
 import {
+	formatParentAttribution,
 	formatProjectYear,
 	getParentProject,
 	type Project,
@@ -132,7 +133,7 @@ function ProjectParentMeta({ project }: { project: Project }) {
 	return (
 		<>
 			{" · "}
-			{parent.name}
+			{formatParentAttribution(parent)}
 		</>
 	);
 }
@@ -149,8 +150,8 @@ function ProjectUrlBar({ project }: { project: Project }) {
 			<LockIcon className={cn("size-3.5 shrink-0", protocolClass)} />
 			<span className="min-w-0 flex-1 truncate">
 				<span className={protocolClass}>
-					<span className="max-md:hidden">https:</span>
-					{"//"}
+					<span className="max-md:hidden">https</span>
+					{"://"}
 				</span>
 				{project.url}
 			</span>
