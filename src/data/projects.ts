@@ -7,12 +7,17 @@ export type ProjectMedia = {
 	poster?: string;
 };
 
+export type ProjectYear = {
+	start: number;
+	end?: number | "Present";
+};
+
 export type Project = {
 	slug: string;
 	name: string;
 	url: string;
 	href: string;
-	year: number;
+	year: ProjectYear;
 	category: string;
 	languages: string[];
 	logo?: string;
@@ -23,31 +28,34 @@ export type Project = {
 	lede: string;
 	story: string[];
 	highlights: string[];
+	highlighted?: boolean;
 	gallery?: ProjectMedia[];
 };
 
 export const projects = [
 	{
-		slug: "descrudes",
-		name: "Descrudes",
-		url: "www.descrudes.it",
-		href: "https://www.descrudes.it",
-		year: 2018,
-		category: "Fashion",
-		languages: ["HTML", "CSS", "JS", "Laravel"],
+		slug: "epicparty",
+		name: "EpicParty",
+		url: "epicparty.gg",
+		href: "https://epicparty.gg",
+		year: { start: 2021, end: "Present" },
+		category: "Gaming",
+		languages: ["TypeScript", "React", "Node"],
+		logo: "/images/projects/epicparty/logo.svg",
 		colors: {
-			primary: "#e23d2a",
-			secondary: "#f08a24",
+			primary: "#6c2cff",
+			secondary: "#00e5a8",
 		},
-		lede: "An editorial storefront for an Italian clothing label — collections first, checkout second.",
+		highlighted: true,
+		lede: "A social gaming platform built for short sessions, loud rooms, and a reason to come back tonight.",
 		story: [
-			"Descrudes needed a site that felt like a lookbook, not a generic catalogue. I built the full stack in Laravel: collection pages, product stories, and a calm path from browsing to purchase.",
-			"The work sat between fashion direction and engineering. Photography had to stay huge, type had to stay sharp, and the CMS had to be usable on a Sunday night before a drop.",
+			"EpicParty had to feel like a night out, not an admin dashboard. Lobbies, matches, and profiles needed to be instant on a phone and still hold up on a TV across the room.",
+			"I designed the interface around pace: clear turns, readable scores, and a visual language that stays playful without getting in the way of the game.",
 		],
 		highlights: [
-			"Designed and shipped the public site end-to-end",
-			"Built collection and product templates around editorial photography",
-			"Implemented Laravel admin workflows for seasonal drops",
+			"Designed the product surface for live, social play",
+			"Built the web client around fast sessions and readable match state",
+			"Shaped a visual system that can survive new game modes without a redesign",
 		],
 	},
 	{
@@ -55,7 +63,7 @@ export const projects = [
 		name: "Cyrus Yung",
 		url: "www.yungcyrus.com",
 		href: "https://www.yungcyrus.com",
-		year: 2019,
+		year: { start: 2019 },
 		category: "Artist",
 		languages: ["HTML", "CSS", "React"],
 		colors: {
@@ -74,38 +82,49 @@ export const projects = [
 		],
 	},
 	{
-		slug: "epicparty",
-		name: "EpicParty",
-		url: "epicparty.app",
-		href: "https://epicparty.app",
-		year: 2021,
-		category: "Gaming",
-		languages: ["TypeScript", "React", "Node"],
-		logo: "/images/projects/epicparty/logo.svg",
+		slug: "descrudes",
+		name: "Descrudes",
+		url: "www.descrudes.it",
+		href: "https://www.descrudes.it",
+		year: { start: 2018 },
+		category: "Fashion",
+		languages: ["HTML", "CSS", "JS", "Laravel"],
 		colors: {
-			primary: "#6c2cff",
-			secondary: "#00e5a8",
+			primary: "#e23d2a",
+			secondary: "#f08a24",
 		},
-		lede: "A social gaming platform built for short sessions, loud rooms, and a reason to come back tonight.",
+		lede: "An editorial storefront for an Italian clothing label — collections first, checkout second.",
 		story: [
-			"EpicParty had to feel like a night out, not an admin dashboard. Lobbies, matches, and profiles needed to be instant on a phone and still hold up on a TV across the room.",
-			"I designed the interface around pace: clear turns, readable scores, and a visual language that stays playful without getting in the way of the game.",
+			"Descrudes needed a site that felt like a lookbook, not a generic catalogue. I built the full stack in Laravel: collection pages, product stories, and a calm path from browsing to purchase.",
+			"The work sat between fashion direction and engineering. Photography had to stay huge, type had to stay sharp, and the CMS had to be usable on a Sunday night before a drop.",
 		],
 		highlights: [
-			"Designed the product surface for live, social play",
-			"Built the web client around fast sessions and readable match state",
-			"Shaped a visual system that can survive new game modes without a redesign",
+			"Designed and shipped the public site end-to-end",
+			"Built collection and product templates around editorial photography",
+			"Implemented Laravel admin workflows for seasonal drops",
 		],
 	},
 ] satisfies Project[];
 
 export const signatureColors = {
-	primary: "#1e344a",
-	secondary: "#52677b",
+	primary: "#1e293b",
+	secondary: "#64748b",
 } as const;
 
 export const defaultProject = projects[0];
 export const defaultProjectSlug = defaultProject.slug;
+
+export function formatProjectYear(year: ProjectYear) {
+	if (year.end === undefined) {
+		return String(year.start);
+	}
+
+	return `${year.start}–${year.end}`;
+}
+
+export function getHighlightedProjects() {
+	return projects.filter((project) => project.highlighted);
+}
 
 export function getProjectBySlug(slug: string) {
 	return projects.find((project) => project.slug === slug);
@@ -121,23 +140,6 @@ export function resolveProjectSlug(slug: string | undefined) {
 
 export function getProjectIndex(slug: string) {
 	return projects.findIndex((project) => project.slug === slug);
-}
-
-export function getAdjacentProjects(slug: string) {
-	const index = getProjectIndex(slug);
-
-	if (index < 0) {
-		return undefined;
-	}
-
-	const previous = projects.at((index - 1 + projects.length) % projects.length);
-	const next = projects.at((index + 1) % projects.length);
-
-	if (!previous || !next) {
-		return undefined;
-	}
-
-	return { previous, next };
 }
 
 export function getProjectGallery(project: Project) {

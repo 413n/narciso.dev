@@ -4,10 +4,7 @@ export const resume = {
 	name: person.name,
 	title: person.role,
 	location: person.location,
-	email: person.email,
-	summary:
-		"Full stack developer blending interface craft with solid back-end work. I ship websites that look considered and hold up in production.",
-	bio: person.about,
+	summary: person.about,
 	experience: [
 		{
 			role: "Software Engineer",

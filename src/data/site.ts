@@ -2,27 +2,58 @@ export const person = {
 	name: "Alessandro Narciso",
 	role: "Design Engineer",
 	location: "Switzerland",
-	email: "alessandro@narciso.dev",
 	about:
-		"Hi, I'm Alessandro Narciso, a Switzerland-based full stack developer. I care a lot about design and UX, but also about the back-end and its security.",
+		"I'm passionate about cutting-edge frontend technologies and tools that improve DX. Nonetheless I also love web design and UX. I constantly seek opportunities to learn, evolve, and refine both my technical and personal skills. I always try to keep an eye out on how the web is changing and evolving, especially in the JavaScript ecosystem. Fun fact: I’m older than I look!",
 } as const;
 
+export const featuredSkills = [
+	"React",
+	"Node",
+	"TypeScript",
+	"UI",
+	"UX",
+	"Figma",
+] as const;
+
+export const featuredSkillIcons = {
+	React: "/images/skills/react.svg",
+	Node: "/images/skills/nodedotjs.svg",
+	TypeScript: "/images/skills/typescript.svg",
+	UI: "/images/skills/spark.svg",
+	UX: "/images/skills/accessibility.svg",
+	Figma: "/images/skills/figma.svg",
+} satisfies Record<(typeof featuredSkills)[number], string>;
+
+export const skillGroups = [
+	{
+		category: "Frontend",
+		skills: [
+			"HTML",
+			"CSS / SCSS",
+			"JavaScript",
+			"Vue",
+			"Tailwind CSS",
+			"TanStack",
+		],
+	},
+	{
+		category: "Backend",
+		skills: ["PHP", "Laravel", "SQL", "Node.js", "C#", "Convex"],
+	},
+	{
+		category: "Cloud",
+		skills: ["AWS", "Cloudflare"],
+	},
+] as const;
+
 export const skills = [
-	{ name: "HTML", level: 95 },
-	{ name: "CSS/SCSS", level: 85 },
-	{ name: "TypeScript", level: 80 },
-	{ name: "JS / React", level: 75 },
-	{ name: "Vue", level: 75 },
-	{ name: "PHP", level: 85 },
-	{ name: "Laravel", level: 80 },
-	{ name: "SQL", level: 80 },
-	{ name: "AWS", level: 50 },
+	...featuredSkills,
+	...skillGroups.flatMap((group) => group.skills),
 ] as const;
 
 export const socials = [
 	{
 		label: "Email",
-		href: "mailto:alessandro@narciso.dev",
 		kind: "email",
 	},
 	{
