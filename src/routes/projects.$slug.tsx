@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeftIcon, ArrowUpRightIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowUpRightIcon, CloudOffIcon } from "lucide-react";
 
 import { StageMain } from "#/components/layout/site-shell.tsx";
 import { ProjectGallery } from "#/components/project/project-gallery.tsx";
@@ -119,12 +119,19 @@ function ProjectDetailPage() {
 				</div>
 
 				<div className="shrink-0 border-t bg-card p-5 sm:px-8 sm:py-5">
-					<Button asChild className="rounded-full">
-						<a href={project.href} target="_blank" rel="noreferrer">
-							Visit site
-							<ArrowUpRightIcon />
-						</a>
-					</Button>
+					{project.online ? (
+						<Button asChild className="rounded-full">
+							<a href={project.href} target="_blank" rel="noreferrer">
+								Visit site
+								<ArrowUpRightIcon />
+							</a>
+						</Button>
+					) : (
+						<Button disabled className="rounded-full">
+							Site offline
+							<CloudOffIcon />
+						</Button>
+					)}
 				</div>
 			</article>
 		</StageMain>

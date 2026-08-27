@@ -28,6 +28,7 @@ export type Project = {
 	lede: string;
 	story: string[];
 	highlights: string[];
+	online: boolean;
 	highlighted?: boolean;
 	gallery?: ProjectMedia[];
 };
@@ -46,6 +47,7 @@ export const projects = [
 			primary: "#6c2cff",
 			secondary: "#00e5a8",
 		},
+		online: true,
 		highlighted: true,
 		lede: "A social gaming platform built for short sessions, loud rooms, and a reason to come back tonight.",
 		story: [
@@ -70,6 +72,7 @@ export const projects = [
 			primary: "#2f5bff",
 			secondary: "#7b2cff",
 		},
+		online: false,
 		lede: "A loud, identity-first presence for a rapper — music, visuals, and a single place to land.",
 		story: [
 			"Artist sites die when they feel like a Linktree with extra steps. This one had to carry a voice: dark, electric, and fast on a phone in a club queue.",
@@ -93,6 +96,7 @@ export const projects = [
 			primary: "#e23d2a",
 			secondary: "#f08a24",
 		},
+		online: false,
 		lede: "An editorial storefront for an Italian clothing label — collections first, checkout second.",
 		story: [
 			"Descrudes needed a site that felt like a lookbook, not a generic catalogue. I built the full stack in Laravel: collection pages, product stories, and a calm path from browsing to purchase.",

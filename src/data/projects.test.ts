@@ -10,6 +10,14 @@ describe("projects", () => {
 			"descrudes",
 		]);
 	});
+
+	test("marks only EpicParty as online", () => {
+		expect(
+			projects
+				.filter((project) => project.online)
+				.map((project) => project.slug),
+		).toEqual(["epicparty"]);
+	});
 });
 
 describe("getHighlightedProjects", () => {

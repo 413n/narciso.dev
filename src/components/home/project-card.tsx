@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowUpRightIcon, LockIcon } from "lucide-react";
+import { ArrowUpRightIcon, CloudOffIcon, LockIcon } from "lucide-react";
 import type { CSSProperties } from "react";
 
 import { ProjectLogo } from "#/components/project/project-logo.tsx";
@@ -37,25 +37,7 @@ export function ProjectCard({ project }: { project: Project }) {
 				style={{ background: project.colors.secondary }}
 			/>
 
-			<a
-				className={cn(
-					"col-start-1 row-start-1 flex items-center gap-1.5 bg-foreground pr-1.5 pl-[calc(6px+0.375rem)] font-mono text-xs text-background no-underline transition-[filter] hover:brightness-125 dark:bg-background dark:text-foreground",
-					"max-md:col-start-2 max-md:pl-1.5",
-				)}
-				href={project.href}
-				target="_blank"
-				rel="noreferrer"
-			>
-				<LockIcon className="size-3.5 shrink-0 text-emerald-300" />
-				<span className="min-w-0 flex-1 truncate">
-					<span className="text-emerald-300">
-						<span className="max-md:hidden">https:</span>
-						{"//"}
-					</span>
-					{project.url}
-				</span>
-				<ArrowUpRightIcon className="size-3.5 shrink-0 opacity-70" />
-			</a>
+			<ProjectUrlBar project={project} />
 
 			<div
 				className={cn(
@@ -132,5 +114,50 @@ export function ProjectCard({ project }: { project: Project }) {
 				<ProjectPoster project={project} />
 			</div>
 		</article>
+	);
+}
+
+function ProjectUrlBar({ project }: { project: Project }) {
+	const protocolClass = project.online ? "text-emerald-300" : "text-zinc-400";
+	const className = cn(
+		"col-start-1 row-start-1 flex items-center gap-1.5 bg-foreground pr-1.5 pl-[calc(6px+0.375rem)] font-mono text-xs text-background no-underline dark:bg-background dark:text-foreground",
+		"max-md:col-start-2 max-md:pl-1.5",
+		project.online && "transition-[filter] hover:brightness-125",
+	);
+	const content = (
+		<>
+			<LockIcon className={cn("size-3.5 shrink-0", protocolClass)} />
+			<span className="min-w-0 flex-1 truncate">
+				<span className={protocolClass}>
+					<span className="max-md:hidden">https:</span>
+					{"//"}
+				</span>
+				{project.url}
+			</span>
+			{project.online ? (
+				<ArrowUpRightIcon className="size-3.5 shrink-0 opacity-70" />
+			) : (
+				<CloudOffIcon className={cn("size-3.5 shrink-0", protocolClass)} />
+			)}
+		</>
+	);
+
+	if (project.online) {
+		return (
+			<a
+				className={className}
+				href={project.href}
+				target="_blank"
+				rel="noreferrer"
+			>
+				{content}
+			</a>
+		);
+	}
+
+	return (
+		<div className={className} title="Site offline">
+			{content}
+		</div>
 	);
 }
