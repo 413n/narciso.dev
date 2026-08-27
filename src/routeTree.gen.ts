@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as CvRouteImport } from './routes/cv'
+import { Route as CvIndexRouteImport } from './routes/cv.index'
+import { Route as CvPrintRouteImport } from './routes/cv.print'
 import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +31,16 @@ const CvRoute = CvRouteImport.update({
   path: '/cv',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CvIndexRoute = CvIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CvRoute,
+} as any)
+const CvPrintRoute = CvPrintRouteImport.update({
+  id: '/print',
+  path: '/print',
+  getParentRoute: () => CvRoute,
+} as any)
 const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
   id: '/projects/$slug',
   path: '/projects/$slug',
@@ -38,34 +50,46 @@ const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/cv': typeof CvRoute
+  '/cv': typeof CvRouteWithChildren
+  '/cv/print': typeof CvPrintRoute
   '/projects/$slug': typeof ProjectsSlugRoute
+  '/cv/': typeof CvIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/cv': typeof CvRoute
+  '/cv/print': typeof CvPrintRoute
   '/projects/$slug': typeof ProjectsSlugRoute
+  '/cv': typeof CvIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/cv': typeof CvRoute
+  '/cv': typeof CvRouteWithChildren
+  '/cv/print': typeof CvPrintRoute
   '/projects/$slug': typeof ProjectsSlugRoute
+  '/cv/': typeof CvIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/cv' | '/projects/$slug'
+  fullPaths: '/' | '/about' | '/cv' | '/cv/print' | '/projects/$slug' | '/cv/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/cv' | '/projects/$slug'
-  id: '__root__' | '/' | '/about' | '/cv' | '/projects/$slug'
+  to: '/' | '/about' | '/cv/print' | '/projects/$slug' | '/cv'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/cv'
+    | '/cv/print'
+    | '/projects/$slug'
+    | '/cv/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  CvRoute: typeof CvRoute
+  CvRoute: typeof CvRouteWithChildren
   ProjectsSlugRoute: typeof ProjectsSlugRoute
 }
 
@@ -92,6 +116,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CvRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cv/': {
+      id: '/cv/'
+      path: '/'
+      fullPath: '/cv/'
+      preLoaderRoute: typeof CvIndexRouteImport
+      parentRoute: typeof CvRoute
+    }
+    '/cv/print': {
+      id: '/cv/print'
+      path: '/print'
+      fullPath: '/cv/print'
+      preLoaderRoute: typeof CvPrintRouteImport
+      parentRoute: typeof CvRoute
+    }
     '/projects/$slug': {
       id: '/projects/$slug'
       path: '/projects/$slug'
@@ -102,10 +140,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface CvRouteChildren {
+  CvPrintRoute: typeof CvPrintRoute
+  CvIndexRoute: typeof CvIndexRoute
+}
+
+const CvRouteChildren: CvRouteChildren = {
+  CvPrintRoute: CvPrintRoute,
+  CvIndexRoute: CvIndexRoute,
+}
+
+const CvRouteWithChildren = CvRoute._addFileChildren(CvRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  CvRoute: CvRoute,
+  CvRoute: CvRouteWithChildren,
   ProjectsSlugRoute: ProjectsSlugRoute,
 }
 export const routeTree = rootRouteImport

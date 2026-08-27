@@ -1,26 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-import { CvDocument } from "#/components/cv/cv-document.tsx";
-import { StageMain } from "#/components/layout/site-shell.tsx";
-import { person } from "#/data/site.ts";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/cv")({
-	component: CvPage,
-	head: () => ({
-		meta: [
-			{ title: `${person.name} — CV` },
-			{
-				name: "description",
-				content: `${person.name}, ${person.role}. ${person.about}`,
-			},
-		],
-	}),
+	component: CvLayout,
 });
 
-function CvPage() {
-	return (
-		<StageMain>
-			<CvDocument />
-		</StageMain>
-	);
+function CvLayout() {
+	return <Outlet />;
 }
