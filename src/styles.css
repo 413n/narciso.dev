@@ -191,7 +191,7 @@
 	min-height: 100dvh;
 	overflow: hidden;
 	padding: var(--pad) 0;
-	row-gap: 0.5rem;
+	row-gap: 1rem;
 	grid-template-columns:
 		var(--pad)
 		minmax(0, calc(var(--left-span) * 2 / 4.15))
@@ -393,6 +393,13 @@
 		grid-template-rows: auto minmax(0, 1fr) 40px;
 	}
 
+	.stage-page {
+		grid-template-rows: auto minmax(0, 1fr);
+		grid-template-areas:
+			"nav"
+			"main";
+	}
+
 	.stage-left {
 		left: 0;
 		right: 0;
@@ -425,7 +432,7 @@
 	}
 
 	.stage-nav {
-		padding-bottom: 1.5rem;
+		padding-bottom: 0.5rem;
 	}
 
 	.stage:not(.stage-page) .stage-main {
