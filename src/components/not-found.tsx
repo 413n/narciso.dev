@@ -2,7 +2,6 @@ import { Link } from "@tanstack/react-router";
 
 import { StageMain } from "#/components/layout/site-shell.tsx";
 import { Button } from "#/components/ui/button.tsx";
-import { defaultProjectSlug } from "#/data/projects.ts";
 
 export function NotFoundPage() {
 	return (
@@ -20,11 +19,7 @@ export function NotFoundPage() {
 				</p>
 				<div className="flex flex-wrap gap-2">
 					<Button asChild className="rounded-full">
-						<Link
-							to="/"
-							search={{ project: defaultProjectSlug }}
-							viewTransition
-						>
+						<Link to="/" viewTransition>
 							Go home
 						</Link>
 					</Button>

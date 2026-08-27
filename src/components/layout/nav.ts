@@ -1,4 +1,4 @@
-import { resolveProjectSlug } from "#/data/projects.ts";
+import { projectSearch } from "#/data/projects.ts";
 
 export const navLinks = [
 	{ label: "Projects", to: "/", active: "projects" },
@@ -32,14 +32,12 @@ export function homeSearchFromLocation(pathname: string, search: unknown) {
 		"project" in search &&
 		typeof search.project === "string"
 	) {
-		return { project: resolveProjectSlug(search.project) };
+		return projectSearch(search.project);
 	}
 
 	if (pathname.startsWith("/projects/")) {
-		return {
-			project: resolveProjectSlug(pathname.slice("/projects/".length)),
-		};
+		return projectSearch(pathname.slice("/projects/".length));
 	}
 
-	return { project: resolveProjectSlug(undefined) };
+	return projectSearch(undefined);
 }

@@ -4,7 +4,11 @@ import type { CSSProperties } from "react";
 
 import { ProjectLogo } from "#/components/project/project-logo.tsx";
 import { ProjectPoster } from "#/components/project/project-poster.tsx";
-import { formatProjectYear, type Project } from "#/data/projects.ts";
+import {
+	formatProjectYear,
+	getParentProject,
+	type Project,
+} from "#/data/projects.ts";
 import { cn } from "#/lib/utils.ts";
 import {
 	projectViewTransition,
@@ -68,6 +72,7 @@ export function ProjectCard({ project }: { project: Project }) {
 							<span style={{ color: project.colors.secondary }}>
 								{project.category}
 							</span>
+							<ProjectParentMeta project={project} />
 							{" · "}
 							{formatProjectYear(project.year)}
 						</p>
@@ -114,6 +119,21 @@ export function ProjectCard({ project }: { project: Project }) {
 				<ProjectPoster project={project} />
 			</div>
 		</article>
+	);
+}
+
+function ProjectParentMeta({ project }: { project: Project }) {
+	const parent = getParentProject(project);
+
+	if (!parent) {
+		return null;
+	}
+
+	return (
+		<>
+			{" · "}
+			{parent.name}
+		</>
 	);
 }
 

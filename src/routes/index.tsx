@@ -1,4 +1,9 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	redirect,
+	type SearchSchemaInput,
+	stripSearchParams,
+} from "@tanstack/react-router";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
 
@@ -8,8 +13,10 @@ import { ProjectScrubber } from "#/components/home/project-scrubber.tsx";
 import { StageMain } from "#/components/layout/site-shell.tsx";
 import {
 	defaultProject,
+	defaultProjectSlug,
 	getProjectBySlug,
 	getProjectIndex,
+	projectSearch,
 	projects,
 	resolveProjectSlug,
 } from "#/data/projects.ts";
@@ -42,7 +49,9 @@ const verticalSlideVariants = {
 	}),
 };
 
-function projectSearchFromUnknown(search: Record<string, unknown>) {
+function projectSearchFromUnknown(
+	search: { project?: unknown } & SearchSchemaInput,
+) {
 	return {
 		project: resolveProjectSlug(
 			typeof search.project === "string" ? search.project : undefined,
@@ -52,12 +61,18 @@ function projectSearchFromUnknown(search: Record<string, unknown>) {
 
 export const Route = createFileRoute("/")({
 	validateSearch: projectSearchFromUnknown,
+	search: {
+		middlewares: [stripSearchParams({ project: defaultProjectSlug })],
+	},
 	loaderDeps: ({ search }) => ({ project: search.project }),
-	beforeLoad: ({ search, location }) => {
-		if (!new URLSearchParams(location.searchStr).has("project")) {
+	beforeLoad: ({ location }) => {
+		if (
+			new URLSearchParams(location.searchStr).get("project") ===
+			defaultProjectSlug
+		) {
 			throw redirect({
 				to: "/",
-				search: { project: search.project },
+				search: {},
 				replace: true,
 			});
 		}
@@ -106,7 +121,7 @@ function HomePage() {
 			}
 
 			void navigate({
-				search: { project: nextProject.slug },
+				search: projectSearch(nextProject.slug),
 				replace: true,
 				resetScroll: false,
 				viewTransition: false,

@@ -29,9 +29,9 @@ describe("homeSearchFromLocation", () => {
 		});
 	});
 
-	test("falls back to the default project", () => {
-		expect(homeSearchFromLocation("/about", {})).toEqual({
-			project: "epicparty",
-		});
+	test("strips the default project from home search", () => {
+		expect(homeSearchFromLocation("/", { project: "epicparty" })).toEqual({});
+		expect(homeSearchFromLocation("/projects/epicparty", {})).toEqual({});
+		expect(homeSearchFromLocation("/about", {})).toEqual({});
 	});
 });

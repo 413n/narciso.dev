@@ -7,7 +7,12 @@ import { ProjectLogo } from "#/components/project/project-logo.tsx";
 import { ProjectPoster } from "#/components/project/project-poster.tsx";
 import { Badge } from "#/components/ui/badge.tsx";
 import { Button } from "#/components/ui/button.tsx";
-import { getProjectBySlug } from "#/data/projects.ts";
+import {
+	getChildProjects,
+	getParentProject,
+	getProjectBySlug,
+	projectSearch,
+} from "#/data/projects.ts";
 import { person } from "#/data/site.ts";
 import {
 	projectViewTransition,
@@ -46,6 +51,8 @@ export const Route = createFileRoute("/projects/$slug")({
 
 function ProjectDetailPage() {
 	const { project } = Route.useLoaderData();
+	const parent = getParentProject(project);
+	const children = getChildProjects(project.slug);
 
 	return (
 		<StageMain>
@@ -62,27 +69,39 @@ function ProjectDetailPage() {
 						>
 							<Link
 								to="/"
-								search={{ project: project.slug }}
+								search={projectSearch(project.slug)}
 								viewTransition={projectViewTransition}
 							>
 								<ArrowLeftIcon />
 								All projects
 							</Link>
 						</Button>
-						<div className="flex items-center justify-between gap-3">
-							<h1
-								className="vt-project-title w-fit font-display text-4xl font-bold tracking-tight sm:text-5xl"
-								style={projectViewTransitionStyle("title", project.slug)}
-							>
-								{project.name}
-							</h1>
-							{project.logo ? (
-								<ProjectLogo
-									src={project.logo}
-									name={project.name}
-									className="vt-project-logo size-12 rounded-lg sm:size-14"
-									style={projectViewTransitionStyle("logo", project.slug)}
-								/>
+						<div className="flex flex-col gap-2">
+							<div className="flex items-center justify-between gap-3">
+								<h1
+									className="vt-project-title w-fit font-display text-4xl font-bold tracking-tight sm:text-5xl"
+									style={projectViewTransitionStyle("title", project.slug)}
+								>
+									{project.name}
+								</h1>
+								{project.logo ? (
+									<ProjectLogo
+										src={project.logo}
+										name={project.name}
+										className="vt-project-logo size-12 rounded-lg sm:size-14"
+										style={projectViewTransitionStyle("logo", project.slug)}
+									/>
+								) : null}
+							</div>
+							{parent ? (
+								<Link
+									to="/projects/$slug"
+									params={{ slug: parent.slug }}
+									viewTransition={projectViewTransition}
+									className="w-fit text-sm text-muted-foreground no-underline hover:text-foreground"
+								>
+									Part of {parent.name}
+								</Link>
 							) : null}
 						</div>
 					</div>
@@ -108,6 +127,27 @@ function ProjectDetailPage() {
 							</li>
 						))}
 					</ul>
+
+					{children.length > 0 ? (
+						<div className="flex flex-col gap-2">
+							<p className="text-sm text-muted-foreground">
+								More from {project.name}
+							</p>
+							<div className="flex flex-col gap-1">
+								{children.map((child) => (
+									<Link
+										key={child.slug}
+										to="/projects/$slug"
+										params={{ slug: child.slug }}
+										viewTransition={projectViewTransition}
+										className="w-fit text-lg leading-relaxed no-underline hover:underline"
+									>
+										{child.name}
+									</Link>
+								))}
+							</div>
+						</div>
+					) : null}
 
 					<div className="flex flex-wrap gap-2">
 						{project.languages.map((language) => (

@@ -81,7 +81,10 @@ export function ProjectScrubber({
 								>
 									<p className="font-medium text-white">{project.name}</p>
 									<p className="text-xs text-white/50">
-										{formatProjectYear(project.year)} · {project.category}
+										{formatProjectYear(project.year)} ·{" "}
+										<span style={{ color: project.colors.secondary }}>
+											{project.category}
+										</span>
 									</p>
 								</TooltipContent>
 							</Tooltip>
