@@ -18,6 +18,10 @@ export function AppLayout() {
 	});
 	const colors = getStageColors(pathname, search);
 
+	if (pathname === "/cv/print") {
+		return <Outlet />;
+	}
+
 	return (
 		<SiteShell
 			layout={pathname === "/" ? "reel" : "page"}
@@ -30,7 +34,7 @@ export function AppLayout() {
 
 			<Outlet />
 
-			<StageFooter>
+			<StageFooter className="max-md:hidden">
 				<SiteFooter />
 			</StageFooter>
 		</SiteShell>
