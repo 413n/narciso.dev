@@ -8,8 +8,10 @@ import {
 	getHighlightedProjects,
 	getParentProject,
 	getProjectBySlug,
+	hasPublicUrl,
 	projectSearch,
 	projects,
+	projectUrlLabel,
 } from "./projects.ts";
 
 describe("projects", () => {
@@ -45,7 +47,29 @@ describe("projects", () => {
 			projects
 				.filter((project) => project.online)
 				.map((project) => project.slug),
-		).toEqual(["n6-studio", "notes", "epicparty"]);
+		).toEqual([
+			"n6-studio",
+			"notes",
+			"epicparty",
+			"epicparty-pro",
+			"epicparty-tools",
+		]);
+	});
+
+	test("keeps G&S Wedding without a public URL", () => {
+		const wedding = getProjectBySlug("gs-wedding");
+
+		expect(wedding?.url).toBeUndefined();
+		expect(wedding?.href).toBeUndefined();
+		expect(wedding && hasPublicUrl(wedding)).toBe(false);
+	});
+
+	test("keeps projects without a public URL offline", () => {
+		expect(
+			projects
+				.filter((project) => !hasPublicUrl(project))
+				.every((project) => !project.online),
+		).toBe(true);
 	});
 
 	test("uses a product logo when the original project has one", () => {
@@ -114,5 +138,19 @@ describe("project family", () => {
 		expect(epicparty && formatParentAttribution(epicparty)).toBe(
 			"Product of EpicParty",
 		);
+	});
+});
+
+describe("projectUrlLabel", () => {
+	test("returns the public host when the project has a URL", () => {
+		const epicparty = getProjectBySlug("epicparty");
+
+		expect(epicparty && projectUrlLabel(epicparty)).toBe("epicparty.gg");
+	});
+
+	test("returns <hidden> when the project has no URL", () => {
+		const wedding = getProjectBySlug("gs-wedding");
+
+		expect(wedding && projectUrlLabel(wedding)).toBe("<hidden>");
 	});
 });

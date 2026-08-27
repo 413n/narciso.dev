@@ -12,6 +12,7 @@ import {
 	getChildProjects,
 	getParentProject,
 	getProjectBySlug,
+	hasPublicUrl,
 	projectSearch,
 } from "#/data/projects.ts";
 import { person } from "#/data/site.ts";
@@ -160,7 +161,7 @@ function ProjectDetailPage() {
 				</div>
 
 				<div className="shrink-0 border-t bg-card p-5 sm:px-8 sm:py-5">
-					{project.online ? (
+					{project.online && hasPublicUrl(project) ? (
 						<Button asChild className="rounded-full">
 							<a href={project.href} target="_blank" rel="noreferrer">
 								Visit site

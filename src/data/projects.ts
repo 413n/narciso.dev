@@ -17,8 +17,8 @@ export type ProjectKind = "studio" | "product";
 export type Project = {
 	slug: string;
 	name: string;
-	url: string;
-	href: string;
+	url?: string;
+	href?: string;
 	year: ProjectYear;
 	category: string;
 	languages: string[];
@@ -133,7 +133,7 @@ export const projects = [
 			primary: "#0040ff",
 			secondary: "#7dd3fc",
 		},
-		online: false,
+		online: true,
 		lede: "A Party for larger events that need organization. RSVP, teams and solo play, and a media drive for guest photos and videos.",
 		story: [
 			"Pro is for bigger events that need organization. One Party holds invitations, games, and guest media in a single place. Games can run with teams or with individual players.",
@@ -160,7 +160,7 @@ export const projects = [
 			primary: "#7600ff",
 			secondary: "#e879f9",
 		},
-		online: false,
+		online: true,
 		lede: "A toolkit for organizing a Party, plus simple Party games such as Secret Santa.",
 		story: [
 			"Tools is a toolkit for organizing a Party. It also hosts simple Party games, starting with Secret Santa for the winter season, with room for more later.",
@@ -175,8 +175,6 @@ export const projects = [
 	{
 		slug: "gs-wedding",
 		name: "G&S Wedding",
-		url: "gs-wedding.vercel.app",
-		href: "https://gs-wedding.vercel.app",
 		year: { start: 2025 },
 		category: "Wedding",
 		kind: "product",
@@ -291,6 +289,16 @@ export function formatProjectYear(year: ProjectYear) {
 	}
 
 	return `${year.start}–${year.end}`;
+}
+
+export function projectUrlLabel(project: Project) {
+	return project.url ?? "<hidden>";
+}
+
+export function hasPublicUrl(
+	project: Project,
+): project is Project & { url: string; href: string } {
+	return project.url !== undefined && project.href !== undefined;
 }
 
 export function getHighlightedProjects() {

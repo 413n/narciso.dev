@@ -8,7 +8,9 @@ import {
 	formatParentAttribution,
 	formatProjectYear,
 	getParentProject,
+	hasPublicUrl,
 	type Project,
+	projectUrlLabel,
 } from "#/data/projects.ts";
 import { cn } from "#/lib/utils.ts";
 import {
@@ -139,11 +141,12 @@ function ProjectParentMeta({ project }: { project: Project }) {
 }
 
 function ProjectUrlBar({ project }: { project: Project }) {
-	const protocolClass = project.online ? "text-emerald-300" : "text-zinc-400";
+	const isLive = project.online && hasPublicUrl(project);
+	const protocolClass = isLive ? "text-emerald-300" : "text-zinc-400";
 	const className = cn(
 		"col-start-1 row-start-1 flex items-center gap-1.5 bg-foreground pr-1.5 pl-[calc(6px+0.375rem)] font-mono text-xs text-background no-underline dark:bg-background dark:text-foreground",
 		"max-md:col-start-2 max-md:pl-1.5",
-		project.online && "transition-[filter] hover:brightness-125",
+		isLive && "transition-[filter] hover:brightness-125",
 	);
 	const content = (
 		<>
@@ -153,9 +156,11 @@ function ProjectUrlBar({ project }: { project: Project }) {
 					<span className="max-md:hidden">https</span>
 					{"://"}
 				</span>
-				{project.url}
+				<span className={cn(!hasPublicUrl(project) && "text-zinc-400")}>
+					{projectUrlLabel(project)}
+				</span>
 			</span>
-			{project.online ? (
+			{isLive ? (
 				<ArrowUpRightIcon className="size-3.5 shrink-0 opacity-70" />
 			) : (
 				<CloudOffIcon className={cn("size-3.5 shrink-0", protocolClass)} />
@@ -163,7 +168,7 @@ function ProjectUrlBar({ project }: { project: Project }) {
 		</>
 	);
 
-	if (project.online) {
+	if (isLive) {
 		return (
 			<a
 				className={className}
