@@ -11,7 +11,7 @@ import { ThemeProvider } from "#/lib/theme.tsx";
 import appCss from "../styles.css?url";
 
 const fontHref =
-	"https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Syne:wght@500;600;700;800&display=swap";
+	"https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap";
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -23,22 +23,14 @@ export const Route = createRootRoute({
 			},
 			{ title: `${person.name} — ${person.role}` },
 			{ name: "description", content: person.about },
-			{ name: "theme-color", content: "#121212" },
+			{ name: "theme-color", content: "#09090b" },
 		],
 		links: [
-			{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
-			{ rel: "icon", href: "/favicon.ico" },
 			{
 				rel: "icon",
-				type: "image/png",
-				sizes: "32x32",
-				href: "/favicon-32x32.png",
-			},
-			{
-				rel: "icon",
-				type: "image/png",
-				sizes: "16x16",
-				href: "/favicon-16x16.png",
+				type: "image/svg+xml",
+				sizes: "any",
+				href: "/favicon.svg",
 			},
 			{
 				rel: "apple-touch-icon",

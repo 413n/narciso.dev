@@ -3,18 +3,18 @@ import { cn } from "#/lib/utils.ts";
 export function SiteLogo({ className }: { className?: string }) {
 	return (
 		<svg
-			viewBox="0 0 1024 1024"
+			viewBox="0 0 500 500"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
-			className={cn("size-14 text-foreground", className)}
+			className={cn("size-10", className)}
 			aria-hidden="true"
 		>
 			<path
-				d="M210 210V814H331.533V528.308L521.664 814L683.536 814L281.622 210H210Z"
+				d="M0 0V500H100.607V263.5L258 500L392 500L59.29 0H0Z"
 				fill="currentColor"
 			/>
 			<path
-				d="M814 814V210L692.467 210V495.692L502.336 210L340.464 210L742.378 814L814 814Z"
+				d="M500 500V0H399.393V236.5L242 0H108L440.71 500H500Z"
 				fill="currentColor"
 			/>
 		</svg>
